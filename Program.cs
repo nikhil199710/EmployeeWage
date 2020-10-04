@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Coding_prac
 {
@@ -13,9 +14,16 @@ namespace Coding_prac
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Employee Wage Prob");
+            Console.WriteLine("Comp Name");
+            String compName1 = Console.ReadLine();
+            int cw1 = CalEmpWage(compName1, 28, 8, 9);
+            Console.WriteLine("Total wage for " + compName1 + " is " + cw1);
+            Console.WriteLine("Comp Name");
+            String compName2 = Console.ReadLine();
+            int cw2 = CalEmpWage(compName2, 40, 5, 6);
+            Console.WriteLine("Total wage for " + compName2 + " is " + cw2);
 
-            CalEmpWage("Walmart", 28, 8, 90);
-            CalEmpWage("Facebook", 40, 5, 60);
         }
 
         public static int CalEmpWage(String compName, int emp_rate_per_hr, int no_work_days, int max_hrs_in_mon)
