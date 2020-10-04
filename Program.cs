@@ -9,9 +9,16 @@ namespace Coding_prac
         public const int is_full_time = 2;
         public const int emp_rate_per_hr = 20;
         public const int no_work_days = 2;
-        public const int max_hrs_in_mon = 10;
+        public const int max_hrs_in_mon = 100;
 
-        public static int WageCal()
+        static void Main(string[] args)
+        {
+
+            CalEmpWage("Walmart", 28, 8, 90);
+            CalEmpWage("Facebook", 40, 5, 60);
+        }
+
+        public static int CalEmpWage(String compName, int emp_rate_per_hr, int no_work_days, int max_hrs_in_mon)
         {
             ///Variables
             int emphrs = 0;
@@ -39,14 +46,11 @@ namespace Coding_prac
                 Console.WriteLine("Days:" + totalworkdays + "Emp Hrs:" + emphrs);
             }
             int totalempwage = totalemphrs * emp_rate_per_hr;
+            Console.WriteLine("Employee wage for company " + compName + " is " + totalempwage);
             return totalempwage;
-
         }
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Empployee wage" + WageCal());
 
-        }
+
     }
 
 }
