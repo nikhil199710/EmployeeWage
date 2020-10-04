@@ -1,49 +1,38 @@
 ﻿using System;
 
-namespace UC3_PartTimeWage
+namespace Coding_prac
 {
     class Program
     {
         static void Main(string[] args)
         {
-            int isPresent = Attendance();
-            if (isPresent == 0)
-                Console.WriteLine("Employee is Absent!");
-            else
-                Console.WriteLine("Employee is Present!");
-            int dailyEmployeeWage = 0, partTimeWage = 0;
-            if (isPresent == 1)
+            ///Constraints
+            int is_part_time = 1;
+            int is_full_time = 2;
+            int emp_rate = 20;
+
+            ///Variables
+            int emphrs = 0;
+            int empwage = 0;
+
+            Random random = new Random();
+            int empcheck = random.Next(0, 2);
+            if (empcheck == is_part_time)
             {
-                dailyEmployeeWage = DailyEmployeeWage();
-                int doPartTime = Attendance();
-                if (doPartTime == 1)
-                    partTimeWage = PartTimeWage();
+                emphrs = 4;
             }
-            Console.WriteLine("Daily Employee Wage : {0}", dailyEmployeeWage);
-            Console.WriteLine("Part Time Employee Wage : {0}", partTimeWage);
-        }
-        /// <summary>
-        /// Attendance function returns 0 or 1 randomly.
-        /// </summary>
-        /// <returns></returns>
-        static int Attendance()
-        {
-            Random randObj = new Random();
-            return randObj.Next(0, 2);
-        }
+            else if (empcheck == is_full_time)
+            {
+                emphrs = 8;
+            }
+            else
+            {
+                emphrs = 0;
+            }
+            empwage = emphrs * emp_rate;
+            Console.WriteLine("Empployee wage" + empwage);
 
-        static int DailyEmployeeWage()
-        {
-            int fullDayHour = 8;
-            int perHourWage = 20;
-            return fullDayHour * perHourWage;
-        }
-
-        static int PartTimeWage()
-        {
-            int partTimeHour = 4;
-            int perHourWage = 20;
-            return partTimeHour * perHourWage;
         }
     }
+
 }
