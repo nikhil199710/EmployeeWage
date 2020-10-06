@@ -4,12 +4,7 @@ using System.Reflection;
 
 namespace Coding_prac
 {
-    //public interface Computewage
-    //{
-    //    public void adddet();
-    //    public void compute_wage();
-    //    public int getTotWage(string cName);
-    //}
+    
     public class Company
     {
         public string compName { get; set; }
@@ -18,7 +13,6 @@ namespace Coding_prac
         public int max_hrs_in_mon { get; set; }
         public int[] daily_wage { get; set; }
         public int cal_wage { get; set; }
-        //string compName, int emp_rate_perHr, int no_work_days, int max_hrs_in_mon, int cal_wage
         public string CompanyDet()
         {
             return string.Format("{0} is an author of {1}. Price: ${2}", compName, emp_rate_perHr, no_work_days, max_hrs_in_mon, cal_wage);
@@ -55,9 +49,7 @@ namespace Coding_prac
                 String max_hrs_in_mon = Console.ReadLine();
                 //b.Add(max_hrs_in_mon);
                 int cw1 = CalEmpWage(compName1, Convert.ToInt32(emp_rate_per_hr), Convert.ToInt32(no_of_work_days), Convert.ToInt32(max_hrs_in_mon));
-                //Console.WriteLine("Total wage for " + compName1 + " is " + cw1);
-                //b.Add(cw1.ToString());
-                //new Company { Name = "Mahesh Chand", Book = "ADO.NET Programming", Price = 49.95 }; 
+                
                 Emp.Add(new Company
                 {
                     compName = compName1,
@@ -66,8 +58,7 @@ namespace Coding_prac
                     max_hrs_in_mon = Convert.ToInt32(max_hrs_in_mon),
                     cal_wage = cw1
                 });
-                //Emp.Add(new company);
-                //Emp.AddRange(b);
+                
             }
             foreach (Company i in Emp)
             {
@@ -114,8 +105,7 @@ namespace Coding_prac
                             emphrs = 0;
                             break;
                     }
-                    //int daily_wage = emphrs * emp_rate_per_hr;
-                    //dWageArr[totalworkdays - 1] = daily_wage;
+                    
                     totalemphrs += emphrs;
                     Console.WriteLine("Days:" + totalworkdays + "Emp Hrs:" + emphrs);
                 }
