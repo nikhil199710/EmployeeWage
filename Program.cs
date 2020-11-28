@@ -1,52 +1,60 @@
-﻿using System;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmployeeWage.cs" company="Bridgelabz">
+//   Copyright © 2018 Company// </copyright>
+// <creator Name="Nikhil Kumar Yadav"/>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Coding_prac
+using System;
+
+namespace DailyWageProblem
 {
     class Program
     {
-        ///Constraints
-        public const int is_part_time = 1;
-        public const int is_full_time = 2;
-        public const int emp_rate_per_hr = 20;
-        public const int no_work_days = 2;
-        public const int max_hrs_in_mon = 10;
-
-        public static int WageCal()
+        const int IS_FULL_TIME = 1;
+        const int ISS_PART_TIME = 2;
+        const int EMPLOYEE_RATE_PER_HOUR = 20;
+        const int NUM_OF_WORKING_DAYS_PERMONTH = 20;
+        const int MAX_WORKING_HOURS = 100;
+        public static void calculateEmpWage()
+        { 
+        int empHrs;
+        int totalWAage = 0;
+        int totalEmpHours = 0;
+        int workingDays = 0;
+        Random rand = new Random();
+        while(totalEmpHours<MAX_WORKING_HOURS && workingDays<=NUM_OF_WORKING_DAYS_PERMONTH )
         {
-            ///Variables
-            int emphrs = 0;
-            int totalemphrs = 0;
-            int totalworkdays = 0;
-            while (totalemphrs <= max_hrs_in_mon && totalworkdays < no_work_days)
+            if (totalEmpHours == 96)
             {
-                totalworkdays++;
-                Random random = new Random();
-                int empcheck = random.Next(0, 3);
-
-                switch (empcheck)
-                {
-                    case is_part_time:
-                        emphrs = 4;
-                        break;
-                    case is_full_time:
-                        emphrs = 8;
-                        break;
-                    default:
-                        emphrs = 0;
-                        break;
-                }
-                totalemphrs += emphrs;
-                Console.WriteLine("Days:" + totalworkdays + "Emp Hrs:" + emphrs);
+               empHrs = 4;
             }
-            int totalempwage = totalemphrs * emp_rate_per_hr;
-            return totalempwage;
 
+        int empcheck = rand.Next(0, 3);
+        switch (empcheck)
+        {
+           case IS_FULL_TIME:
+                empHrs = 8;
+                break;
+           case ISS_PART_TIME:
+                empHrs = 4;
+                break;
+            default:
+                empHrs = 0;
+                break;
         }
+            totalEmpHours = totalEmpHours + empHrs;
+            Console.WriteLine(totalEmpHours);
+            Console.WriteLine(workingDays);
+            workingDays++;
+       }
+       totalWAage = totalEmpHours * EMPLOYEE_RATE_PER_HOUR;
+       Console.WriteLine("The total wage of worker per month is {0}", totalWAage);
+        }
+
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Empployee wage" + WageCal());
-
+            calculateEmpWage();
         }
     }
-
 }
