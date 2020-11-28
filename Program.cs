@@ -1,124 +1,138 @@
-﻿using System;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmployeeWage.cs" company="Bridgelabz">
+//   Copyright © 2018 Company// </copyright>
+// <creator Name="Nikhil Kumar Yadav"/>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Diagnostics.Tracing;
+using System.Threading;
 
-namespace Coding_prac
+namespace EmpWage
+
 {
-    public interface Computewage
+    public class CompanyEmpWage
     {
-        public void adddet();
-        public void compute_wage();
-        public int getTotWage(string cName);
-    }
-    public class Company
-    {
-        public string compName { get; set; }
-        public int emp_rate_perHr { get; set; }
-        public int no_work_days { get; set; }
-        public int max_hrs_in_mon { get; set; }
-        public int[] daily_wage { get; set; }
-        public int cal_wage { get; set; }
-        //string compName, int emp_rate_perHr, int no_work_days, int max_hrs_in_mon, int cal_wage
-        public string CompanyDet()
-        {
-            return string.Format("{0} is an author of {1}. Price: ${2}", compName, emp_rate_perHr, no_work_days, max_hrs_in_mon, cal_wage);
-        }
-    }
-    class Program
-    {
-        ///Constraints
-        public const int is_part_time = 1;
-        public const int is_full_time = 2;
-        //public const int emp_rate_per_hr = 20;
-        //public const int no_work_days = 2;
-        //public const int max_hrs_in_mon = 100;
+        public string company;
+        public int empRatePerHour;
+        public int numofWorkingDays;
+        public int maxHoursPerMonth;
+        public int totalEmpWage;
+        private LinkedList<int> compDailyEmpWageList;
 
-        static void Main(string[] args)
+        public CompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
         {
-            Console.WriteLine("Employee Wage Prob");
-            List<Company> Emp = new List<Company>();
-            Console.WriteLine("Enter no of companies: ");
-            int n = Convert.ToInt32(Console.ReadLine());
-            for (int i = 1; i <= n; i++)
+            this.company = company;
+            this.empRatePerHour = empRatePerHour;
+            this.numofWorkingDays = numOfWorkingDays;
+            this.maxHoursPerMonth = maxHoursPerMonth;
+            this.totalEmpWage = 0;
+            this.compDailyEmpWageList = new LinkedList<int>();
+
+        }
+      
+        public void setDailyEmpWage(LinkedList<int> compDailyEmpWageList)
+        {
+            this.compDailyEmpWageList = compDailyEmpWageList;
+            int totalEmpWage = 0;
+            foreach (int a in this.compDailyEmpWageList)
             {
-                List<String> b = new List<String>();
-                Console.WriteLine("Comp Name");
-                String compName1 = Console.ReadLine();
-                //b.Add(compName1);
-                Console.WriteLine("Emp Rate");
-                String emp_rate_per_hr = Console.ReadLine();
-                //b.Add(emp_rate_per_hr);
-                Console.WriteLine("No. of working hrs");
-                String no_of_work_days = Console.ReadLine();
-                //b.Add(no_of_work_days);
-                Console.WriteLine("Max work hrs in a month");
-                String max_hrs_in_mon = Console.ReadLine();
-                //b.Add(max_hrs_in_mon);
-                int cw1 = CalEmpWage(compName1, Convert.ToInt32(emp_rate_per_hr), Convert.ToInt32(no_of_work_days), Convert.ToInt32(max_hrs_in_mon));
-                Console.WriteLine("Total wage for " + compName1 + " is " + cw1);
-                //b.Add(cw1.ToString());
-                //new Company { Name = "Mahesh Chand", Book = "ADO.NET Programming", Price = 49.95 }; 
-                Emp.Add(new Company
-                {
-                    compName = compName1,
-                    emp_rate_perHr = Convert.ToInt32(emp_rate_per_hr),
-                    no_work_days = Convert.ToInt32(no_of_work_days),
-                    max_hrs_in_mon = Convert.ToInt32(max_hrs_in_mon),
-                    cal_wage = cw1
-                });
-                //Emp.Add(new company);
-                //Emp.AddRange(b);
+                totalEmpWage += a;
             }
-            foreach (Company i in Emp)
-            {
-                Console.WriteLine($"Company Details: {i.compName}:{i.emp_rate_perHr}:{i.no_work_days}:{i.max_hrs_in_mon}:{i.cal_wage}");
-            }
+            totalEmpWage = totalEmpWage * empRatePerHour;
+            this.totalEmpWage = totalEmpWage;
+
         }
 
-
-
-        public static int CalEmpWage(String compName, int emp_rate_per_hr, int no_work_days, int max_hrs_in_mon)
+        public string toString()
         {
-            ///Variables
-            int emphrs = 0;
-            int totalemphrs = 0;
-            int totalworkdays = 0;
-            int[] dWageArr = new int[30];
-            while (totalemphrs <= max_hrs_in_mon && totalworkdays < no_work_days)
-            {
-                totalworkdays++;
-                Random random = new Random();
-                int empcheck = random.Next(0, 3);
+            return "Total Emp Wage for the company : " + this.company + " is " + this.totalEmpWage;
+        }
 
-                switch (empcheck)
+    }
+
+    public class EmpWageBuilderArray
+    {
+        public const int IS_PART_TIME = 1;
+        public const int IS_FULL_TIME = 2;
+        private LinkedList<CompanyEmpWage> compEmpWageList;
+        
+        public EmpWageBuilderArray()
+        {
+            this.compEmpWageList = new LinkedList<CompanyEmpWage>();
+        }
+
+        public void addCompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
+        {
+            CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
+            this.compEmpWageList.AddLast(companyEmpWage);
+
+
+        }
+
+        public void computeEmpWage()
+        {
+            foreach (CompanyEmpWage companyEmpWage in this.compEmpWageList)
+            {
+                //companyEmpWage.setTotalEmpWage(this.computeEmpWage(companyEmpWage));
+                companyEmpWage.setDailyEmpWage(this.computeEmpWage(companyEmpWage));
+                Console.WriteLine(companyEmpWage.toString());
+
+
+            }
+
+        }
+
+        private LinkedList<int> computeEmpWage(CompanyEmpWage companyEmpWage)
+        {
+            int empHrs = 0;
+            int totalEmpHrs = 0;
+            int totalWorkingDays = 0;
+            int dailyWage;
+            LinkedList<int> returnDailyWageList = new LinkedList<int>();
+            while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numofWorkingDays)
+            {
+                totalWorkingDays++;
+                Random rand = new Random();
+                int empCheck = rand.Next(0, 3);
+                switch (empCheck)
                 {
-                    case is_part_time:
-                        emphrs = 4;
+                    case IS_PART_TIME:
+                        empHrs = 4;
                         break;
-                    case is_full_time:
-                        emphrs = 8;
+                    case IS_FULL_TIME:
+                        empHrs = 8;
                         break;
                     default:
-                        emphrs = 0;
+                        empHrs = 0;
                         break;
+
                 }
-                int daily_wage = emphrs * emp_rate_per_hr;
-                dWageArr[totalworkdays - 1] = daily_wage;
-                totalemphrs += emphrs;
-                Console.WriteLine("Days:" + totalworkdays + "Emp Hrs:" + emphrs);
-            }
-            Console.WriteLine(dWageArr);
-            foreach (var item in dWageArr)
-            {
-                Console.WriteLine("Daily wage " + item);
+                dailyWage = empHrs * companyEmpWage.empRatePerHour;
+                //compDailyEmpWageList.AddLast(dailyWage);
+                returnDailyWageList.AddLast(dailyWage);
+                totalEmpHrs += empHrs;
+                Console.WriteLine("Days: " + totalWorkingDays + " Emp Hrs " + empHrs + " dailywage: " + dailyWage);
+
+
             }
 
-            int totalempwage = totalemphrs * emp_rate_per_hr;
-            Console.WriteLine("Employee wage for company " + compName + " is " + totalempwage);
-            return totalempwage;
+            //return totalEmpHrs * companyEmpWage.empRatePerHour;
+            return returnDailyWageList;
+
+
         }
-
-
+    } 
+    
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            EmpWageBuilderArray empWageBuilder = new EmpWageBuilderArray();
+            empWageBuilder.addCompanyEmpWage("DMART", 10, 20, 90);
+            empWageBuilder.addCompanyEmpWage("Reliance", 10, 4, 20);
+            empWageBuilder.computeEmpWage();
+        }
     }
-
 }
