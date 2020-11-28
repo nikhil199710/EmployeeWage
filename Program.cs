@@ -1,49 +1,33 @@
-﻿using System;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmployeeWage.cs" company="Bridgelabz">
+//   Copyright © 2018 Company// </copyright>
+// <creator Name="Nikhil Kumar Yadav"/>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace UC3_PartTimeWage
+using System;
+
+namespace DailyWageProblem
 {
     class Program
     {
         static void Main(string[] args)
         {
-            int isPresent = Attendance();
-            if (isPresent == 0)
-                Console.WriteLine("Employee is Absent!");
-            else
-                Console.WriteLine("Employee is Present!");
-            int dailyEmployeeWage = 0, partTimeWage = 0;
-            if (isPresent == 1)
+            const int IS_FULL_TIME = 1;
+            int EMPLOYEE_RATE_PER_HOUR = 20;
+            int empHrs;
+            int totalWAage;
+            Random rand = new Random();
+            int empcheck = rand.Next(0, 2);
+            if (empcheck == 1)
             {
-                dailyEmployeeWage = DailyEmployeeWage();
-                int doPartTime = Attendance();
-                if (doPartTime == 1)
-                    partTimeWage = PartTimeWage();
+                empHrs = 8;
             }
-            Console.WriteLine("Daily Employee Wage : {0}", dailyEmployeeWage);
-            Console.WriteLine("Part Time Employee Wage : {0}", partTimeWage);
-        }
-        /// <summary>
-        /// Attendance function returns 0 or 1 randomly.
-        /// </summary>
-        /// <returns></returns>
-        static int Attendance()
-        {
-            Random randObj = new Random();
-            return randObj.Next(0, 2);
-        }
-
-        static int DailyEmployeeWage()
-        {
-            int fullDayHour = 8;
-            int perHourWage = 20;
-            return fullDayHour * perHourWage;
-        }
-
-        static int PartTimeWage()
-        {
-            int partTimeHour = 4;
-            int perHourWage = 20;
-            return partTimeHour * perHourWage;
+            else
+            {
+                empHrs = 0;
+            }
+            totalWAage = empHrs * EMPLOYEE_RATE_PER_HOUR;
+            Console.WriteLine("The total wage of worker per day is {0}",totalWAage);
         }
     }
 }
