@@ -1,28 +1,31 @@
-﻿using System;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmployeeWage.cs" company="Bridgelabz">
+//   Copyright © 2018 Company
+// </copyright>
+// <creator Name="Nikhil Kumar Yadav"/>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace UC2
+using System;
+
+namespace DailyWageProblem
 {
+    // employee check program
+    //UC1
     class Program
     {
-
         static void Main(string[] args)
         {
-            //constant
-            int Wage_per_hour = 20;
-            int present = 1;
-            //variable
-            Random random = new Random();
-            int empWage = 0;
-            int empHour = 0;
-            //Computation
-            int isPresent = random.Next(0, 2);
-            if (isPresent == present)
-                empHour = 8;
+            const int IS_FULL_TIME = 1;
+            Random rand = new Random();
+            int empcheck = rand.Next(0, 2);
+            if (empcheck == 1)
+            {
+                Console.WriteLine("employee is present!");
+            }
             else
-                empHour = 0;
-            empWage = empHour * Wage_per_hour;
-            Console.WriteLine("EmpWage " + empWage);
-
+            {
+                Console.WriteLine("employee is absent!");
+            } 
         }
     }
 }
