@@ -1,79 +1,105 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
+using System.Diagnostics.Tracing;
 
-namespace Coding_prac
+namespace EmpWage
+
 {
-    class Program
+    public class CompanyEmpWage
     {
-        ///Constraints
-        public const int is_part_time = 1;
-        public const int is_full_time = 2;
-        //public const int emp_rate_per_hr = 20;
-        //public const int no_work_days = 2;
-        //public const int max_hrs_in_mon = 100;
+        public string company;
+        public int empRatePerHour;
+        public int numofWorkingDays;
+        public int maxHoursPerMonth;
+        public int totalEmpWage;
 
-        static void Main(string[] args)
+        public CompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
         {
-            Console.WriteLine("Employee Wage Prob");
-            List<String> Emp = new List<String>();
-            Console.WriteLine("Enter no of companies: ");
-            int n = Convert.ToInt32(Console.ReadLine());
-            for (int i = 1; i <= n; i++)
-            {
-                List<String> b = new List<String>();
-                Console.WriteLine("Comp Name");
-                String compName1 = Console.ReadLine();
-                b.Add(compName1);
-                Console.WriteLine("Emp Rate");
-                String emp_rate_per_hr = Console.ReadLine();
-                b.Add(emp_rate_per_hr);
-                Console.WriteLine("No. of working hrs");
-                String no_of_work_days = Console.ReadLine();
-                b.Add(no_of_work_days);
-                Console.WriteLine("Max work hrs in a month");
-                String max_hrs_in_mon = Console.ReadLine();
-                b.Add(max_hrs_in_mon);
-                int cw1 = CalEmpWage(compName1, Convert.ToInt32(emp_rate_per_hr), Convert.ToInt32(no_of_work_days), Convert.ToInt32(max_hrs_in_mon));
-                Console.WriteLine("Total wage for " + compName1 + " is " + cw1);
-                b.Add(cw1.ToString());
-                Emp.AddRange(b);
-            }
-            Emp.ForEach(Console.WriteLine);
-        }
+            this.company = company;
+            this.empRatePerHour = empRatePerHour;
+            this.numofWorkingDays = numOfWorkingDays;
+            this.maxHoursPerMonth = maxHoursPerMonth;
 
-        public static int CalEmpWage(String compName, int emp_rate_per_hr, int no_work_days, int max_hrs_in_mon)
+        }
+        public void setTotalEmpWage(int totalEmpWage)
         {
-            ///Variables
-            int emphrs = 0;
-            int totalemphrs = 0;
-            int totalworkdays = 0;
-            while (totalemphrs <= max_hrs_in_mon && totalworkdays < no_work_days)
-            {
-                totalworkdays++;
-                Random random = new Random();
-                int empcheck = random.Next(0, 3);
+            this.totalEmpWage = totalEmpWage;
 
-                switch (empcheck)
-                {
-                    case is_part_time:
-                        emphrs = 4;
-                        break;
-                    case is_full_time:
-                        emphrs = 8;
-                        break;
-                    default:
-                        emphrs = 0;
-                        break;
-                }
-                totalemphrs += emphrs;
-                Console.WriteLine("Days:" + totalworkdays + "Emp Hrs:" + emphrs);
-            }
-            int totalempwage = totalemphrs * emp_rate_per_hr;
-            Console.WriteLine("Employee wage for company " + compName + " is " + totalempwage);
-            return totalempwage;
         }
-
+        public string toString()
+        {
+            return "Total Emp Wage for the company : " + this.company + " is " + this.totalEmpWage;
+        }
 
     }
 
+    public class EmpWageBuilderArray
+    {
+        public const int IS_PART_TIME = 1;
+        public const int IS_FULL_TIME = 2;
+        private int numOfCompany = 0;
+        private CompanyEmpWage[] companyEmpWageArray;
+
+        public EmpWageBuilderArray()
+        {
+            this.companyEmpWageArray = new CompanyEmpWage[5];
+        }
+
+        public void addCompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
+        {
+            companyEmpWageArray[this.numOfCompany] = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
+            numOfCompany++;
+
+        }
+
+        public void computeEmpWage()
+        {
+            for (int i = 0; i < numOfCompany; i++)
+            {
+                companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(this.companyEmpWageArray[i]));
+                Console.WriteLine(this.companyEmpWageArray[i].toString());
+
+
+            }
+        }
+        private int computeEmpWage(CompanyEmpWage companyEmpWage)
+        {
+            int empHrs = 0;
+            int totalEmpHrs = 0;
+            int totalWorkingDays = 0;
+            while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numofWorkingDays)
+            {
+                totalWorkingDays++;
+                Random rand = new Random();
+                int empCheck = rand.Next(0, 3);
+                switch (empCheck)
+                {
+                    case IS_PART_TIME:
+                        empHrs = 4;
+                        break;
+                    case IS_FULL_TIME:
+                        empHrs = 8;
+                        break;
+                    default:
+                        empHrs = 0;
+                        break;
+
+                }
+                totalEmpHrs += empHrs;
+                Console.WriteLine("Days:" + totalWorkingDays + " Emp Hrs " + empHrs);
+
+            }
+            return totalEmpHrs * companyEmpWage.empRatePerHour;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            EmpWageBuilderArray empWageBuilder = new EmpWageBuilderArray();
+            empWageBuilder.addCompanyEmpWage("DMART", 10, 20, 90);
+            empWageBuilder.addCompanyEmpWage("Reliance", 10, 4, 20);
+            empWageBuilder.computeEmpWage();
+
+        }
+    }
 }
