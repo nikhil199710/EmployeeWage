@@ -1,41 +1,40 @@
-﻿using System;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmployeeWage.cs" company="Bridgelabz">
+//   Copyright © 2018 Company// </copyright>
+// <creator Name="Nikhil Kumar Yadav"/>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Coding_prac
+
+using System;
+
+namespace DailyWageProblem
 {
     class Program
     {
-        public const int is_part_time = 1;
-        public const int is_full_time = 2;
-
         static void Main(string[] args)
         {
-            ///Constraints
-
-            int emp_rate = 20;
-
-            ///Variables
-            int emphrs = 0;
-            int empwage = 0;
-
-            Random random = new Random();
-            int empcheck = random.Next(0, 2);
-
-            switch (empcheck)
+            const int IS_FULL_TIME = 1;
+            const int ISS_PART_TIME = 2;
+            int EMPLOYEE_RATE_PER_HOUR = 20;
+            int empHrs;
+            int totalWAage;
+            Random rand = new Random();
+            int empcheck = rand.Next(0, 3);
+            switch(empcheck)
             {
-                case is_part_time:
-                    emphrs = 4;
+                case IS_FULL_TIME:
+                    empHrs = 8;
                     break;
-                case is_full_time:
-                    emphrs = 8;
+                case ISS_PART_TIME:
+                    empHrs = 4;
                     break;
                 default:
-                    emphrs = 0;
+                    empHrs = 0;
                     break;
             }
-            empwage = emphrs * emp_rate;
-            Console.WriteLine("Empployee wage" + empwage);
+            totalWAage = empHrs * EMPLOYEE_RATE_PER_HOUR;
+            Console.WriteLine("The total wage of worker per day is {0}", totalWAage);
 
         }
     }
-
 }
