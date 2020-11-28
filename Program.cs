@@ -10,6 +10,8 @@ namespace DailyWageProblem
 {
     class Program
     {
+        
+        //UC2
         static void Main(string[] args)
         {
             const int IS_FULL_TIME = 1;
